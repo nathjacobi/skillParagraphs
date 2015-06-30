@@ -1,11 +1,13 @@
 package skillParagraphs;
 
 import java.awt.BorderLayout;
+import java.awt.Label;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
@@ -46,6 +48,8 @@ public class GUIPanels {
 		genderSelection.add(female);
 		genderSelection.add(male);
 		
+		female.setSelected(true);
+		
 		genderPanel.add(female);
 		genderPanel.add(male);
 		
@@ -60,6 +64,10 @@ public class GUIPanels {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				paragraph.setName(name.getText());
+				if (female.isSelected())
+					paragraph.setGenderPronouns(female.getLabel());
+				else
+					paragraph.setGenderPronouns(male.getLabel());
 				System.out.println(paragraph);
 				
 			}
@@ -69,9 +77,13 @@ public class GUIPanels {
 	}
 	
 	private void createNamePanel() {
-		name = new JTextField();
+		JLabel nameLabel = new JLabel("Name (first only)");
+		JPanel namePanel = new JPanel();
+		name = new JTextField(30);
 		name.setEnabled(true);
-		name.setSize(200, 20);
-		mainGUI.add(name);
+		
+		namePanel.add(nameLabel);
+		namePanel.add(name);
+		mainGUI.add(namePanel, BorderLayout.NORTH);
 	}
 }
