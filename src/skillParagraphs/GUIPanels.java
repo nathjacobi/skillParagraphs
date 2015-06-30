@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Label;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Map;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
@@ -23,6 +24,12 @@ public class GUIPanels {
 	JPanel genderPanel;
 	JRadioButton female;
 	JRadioButton male;
+	
+	JPanel checklistPanel;
+	Map<String, ButtonGroup> selfHelpSection;
+	Map<String, ButtonGroup> socialSection;
+	Map<String, ButtonGroup> fineMotorSelection;
+	Map<String, ButtonGroup> communiationLanguageSelection;
 	
 	public GUIPanels(ParagraphGUI mainGUI, Paragraph paragraph) {
 		this.mainGUI = mainGUI;
@@ -74,6 +81,25 @@ public class GUIPanels {
 			
 		}
 		newStudent.addActionListener(new NewStudentButtonListener());
+	}
+	
+	private void createChecklistPanel() {
+		checklistPanel = new JPanel();
+		JRadioButton mastered = new JRadioButton("Mastered");
+		JRadioButton developing = new JRadioButton("Developing");
+		JRadioButton notYetAble = new JRadioButton("Not Yet Able");
+		JRadioButton notIntroduced = new JRadioButton("Not Introduced");
+		ButtonGroup abilityLevel = new ButtonGroup();
+		abilityLevel.add(mastered);
+		abilityLevel.add(developing);
+		abilityLevel.add(notYetAble);
+		abilityLevel.add(notIntroduced);
+		setUpMaps();
+		
+	}
+	
+	private void setUpMaps() {
+		
 	}
 	
 	private void createNamePanel() {
