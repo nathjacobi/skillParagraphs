@@ -48,7 +48,7 @@ public class GUIPanels {
 	
 	private void createNewStudentButton() {
 		newStudent = new JButton("New Student");
-		mainGUI.add(newStudent);
+		mainGUI.add(newStudent, BorderLayout.SOUTH);
 	}
 	
 	private void createGenderButton() {
@@ -90,15 +90,34 @@ public class GUIPanels {
 	
 	private void createChecklistPanel() {
 		checklistPanel = new JPanel();
-		setSelfHelpPanel();
-		setUpMaps();
-		
+		setSelfHelpPanel();		
 	}
 	
 	private void setSelfHelpPanel() {
 		selfHelpPanel = new JPanel();
 		selfHelpSection = new LinkedHashMap<JLabel, JRadioButton[]>();
 		
+		JLabel buttonSnaps = new JLabel("Buttons, Snaps, Buckles, and Zips");
+		JLabel tellsName = new JLabel("Tells name (lirst and last");
+		
+		setSelfHelpMaps(buttonSnaps);
+		setSelfHelpMaps(tellsName);
+		selfHelpPanel.setLayout(new GridLayout(2, 5));
+		
+		
+		for (JLabel label : selfHelpSection.keySet()) {
+			selfHelpPanel.add(label, BorderLayout.WEST);
+			for (JRadioButton button : selfHelpSection.get(label)) {
+				selfHelpPanel.add(button);
+			}
+		}
+		
+		
+		
+		mainGUI.add(selfHelpPanel);
+	}
+	
+	private void setSelfHelpMaps(JLabel label) {
 		JRadioButton mastered = new JRadioButton("Mastered");
 		JRadioButton developing = new JRadioButton("Developing");
 		JRadioButton notYetAble = new JRadioButton("Not Yet Able");
@@ -116,29 +135,7 @@ public class GUIPanels {
 		levelSelect[2] = notYetAble;
 		levelSelect[3] = notIntroduced;
 		
-		JLabel buttonSnaps = new JLabel("Buttons, Snaps, Buckles, and Zips");
-		JLabel tellsName = new JLabel("Tells name (lirst and last");
-		selfHelpSection.put(buttonSnaps, levelSelect);
-		selfHelpSection.put(tellsName, levelSelect);
-		
-		//selfHelpPanel.setLayout(new GridLayout(3, 5));
-		
-		
-		for (JLabel label : selfHelpSection.keySet()) {
-			selfHelpPanel.add(label);
-			selfHelpPanel.add(mastered);
-			selfHelpPanel.add(developing);
-			selfHelpPanel.add(notYetAble);
-			selfHelpPanel.add(notIntroduced);
-		}
-		
-		
-		
-		mainGUI.add(selfHelpPanel);
-	}
-	
-	private void setUpMaps() {
-		JLabel buttonSnaps = new JLabel("Buttons, Snaps, Buckles, and Zips");
+		selfHelpSection.put(label, levelSelect);
 	}
 	
 	private void createNamePanel() {
