@@ -2,13 +2,14 @@ package skillParagraphs;
 
 import java.util.Scanner;
 
+import javax.swing.JFrame;
+
 public class Paragraph {
 	private String name;
 	private String pronoun;
-	
+	private ParagraphGUI mainWindow;
 	
 	public Paragraph() {
-		
 	}
 	
 	public void collectInfo() {
@@ -27,11 +28,6 @@ public class Paragraph {
 		else {
 			pronoun = "She";
 		}
-	}
-	
-	public static void main(String[] args) {
-		Paragraph mainPara = new Paragraph();
-		mainPara.collectInfo();
 	}
 
 }
