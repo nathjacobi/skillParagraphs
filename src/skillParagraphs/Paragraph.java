@@ -12,6 +12,10 @@ public class Paragraph {
 	public Paragraph() {
 	}
 	
+	public void setName(String name) {
+		this.name = name;
+	}
+	
 	public void collectInfo() {
 		Scanner userInput = new Scanner(System.in);
 		
@@ -29,5 +33,9 @@ public class Paragraph {
 			pronoun = "She";
 		}
 	}
-
+	@Override
+	public String toString() {
+		return name;
+		
+	}
 }

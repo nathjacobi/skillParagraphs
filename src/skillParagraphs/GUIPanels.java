@@ -30,7 +30,8 @@ public class GUIPanels {
 		class NewStudentButtonListener implements ActionListener {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("The button is pressed");
+				paragraph.setName(name.getText());
+				System.out.println(paragraph);
 				
 			}
 			
