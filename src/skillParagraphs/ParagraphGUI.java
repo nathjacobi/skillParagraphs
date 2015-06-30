@@ -14,7 +14,7 @@ public class ParagraphGUI extends JFrame{
 	
 	public ParagraphGUI(){
 		this.setTitle("Skill Paragraph Generator");
-		this.setSize(1080, 720);
+		this.setSize(1280, 720);
 		this.setLocation(400, 100);
 		paragraph = new Paragraph();
 		panels = new GUIPanels(this, paragraph);
