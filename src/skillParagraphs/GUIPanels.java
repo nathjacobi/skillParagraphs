@@ -1,9 +1,12 @@
 package skillParagraphs;
 
 import java.awt.BorderLayout;
+import java.awt.GridLayout;
 import java.awt.Label;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.lang.reflect.Array;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import javax.swing.ButtonGroup;
@@ -25,8 +28,10 @@ public class GUIPanels {
 	JRadioButton female;
 	JRadioButton male;
 	
+	JPanel selfHelpPanel;
 	JPanel checklistPanel;
-	Map<String, ButtonGroup> selfHelpSection;
+	ButtonGroup abilityLevel;
+	Map<JLabel, JRadioButton[]> selfHelpSection;
 	Map<String, ButtonGroup> socialSection;
 	Map<String, ButtonGroup> fineMotorSelection;
 	Map<String, ButtonGroup> communiationLanguageSelection;
@@ -37,7 +42,7 @@ public class GUIPanels {
 		createNamePanel();
 		createGenderButton();
 		createNewStudentButton();
-
+		createChecklistPanel();
 		addListeners();
 	}
 	
@@ -85,21 +90,55 @@ public class GUIPanels {
 	
 	private void createChecklistPanel() {
 		checklistPanel = new JPanel();
-		JRadioButton mastered = new JRadioButton("Mastered");
-		JRadioButton developing = new JRadioButton("Developing");
-		JRadioButton notYetAble = new JRadioButton("Not Yet Able");
-		JRadioButton notIntroduced = new JRadioButton("Not Introduced");
-		ButtonGroup abilityLevel = new ButtonGroup();
-		abilityLevel.add(mastered);
-		abilityLevel.add(developing);
-		abilityLevel.add(notYetAble);
-		abilityLevel.add(notIntroduced);
+		setSelfHelpPanel();
 		setUpMaps();
 		
 	}
 	
-	private void setUpMaps() {
+	private void setSelfHelpPanel() {
+		selfHelpPanel = new JPanel();
+		selfHelpSection = new LinkedHashMap<JLabel, JRadioButton[]>();
 		
+		JRadioButton mastered = new JRadioButton("Mastered");
+		JRadioButton developing = new JRadioButton("Developing");
+		JRadioButton notYetAble = new JRadioButton("Not Yet Able");
+		JRadioButton notIntroduced = new JRadioButton("Not Introduced");
+		abilityLevel = new ButtonGroup();
+		abilityLevel.add(mastered);
+		abilityLevel.add(developing);
+		abilityLevel.add(notYetAble);
+		abilityLevel.add(notIntroduced);
+		mastered.setSelected(true);
+		
+		JRadioButton[] levelSelect = new JRadioButton[4];
+		levelSelect[0] = mastered;
+		levelSelect[1] = developing;
+		levelSelect[2] = notYetAble;
+		levelSelect[3] = notIntroduced;
+		
+		JLabel buttonSnaps = new JLabel("Buttons, Snaps, Buckles, and Zips");
+		JLabel tellsName = new JLabel("Tells name (lirst and last");
+		selfHelpSection.put(buttonSnaps, levelSelect);
+		selfHelpSection.put(tellsName, levelSelect);
+		
+		//selfHelpPanel.setLayout(new GridLayout(3, 5));
+		
+		
+		for (JLabel label : selfHelpSection.keySet()) {
+			selfHelpPanel.add(label);
+			selfHelpPanel.add(mastered);
+			selfHelpPanel.add(developing);
+			selfHelpPanel.add(notYetAble);
+			selfHelpPanel.add(notIntroduced);
+		}
+		
+		
+		
+		mainGUI.add(selfHelpPanel);
+	}
+	
+	private void setUpMaps() {
+		JLabel buttonSnaps = new JLabel("Buttons, Snaps, Buckles, and Zips");
 	}
 	
 	private void createNamePanel() {
