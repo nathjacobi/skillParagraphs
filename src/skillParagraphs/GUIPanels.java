@@ -1,6 +1,7 @@
 package skillParagraphs;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.FontMetrics;
@@ -51,19 +52,17 @@ public class GUIPanels {
 	JPanel selfHelpPanel;
 	JPanel checklistPanel;
 	ButtonGroup abilityLevel;
-	Map<JLabel, JRadioButton[]> selfHelpSection;
-	Map<String, ButtonGroup> socialSection;
-	Map<String, ButtonGroup> fineMotorSelection;
-	Map<String, ButtonGroup> communiationLanguageSelection;
 
 	JButton previous;
 	JButton next;
-	
-	int currentSkill;
-	
-	ArrayList<JPanel> skillPanels;
-	Map<JLabel, JRadioButton[]> skillMap;
 
+	int currentSkill;
+
+	ArrayList<JPanel> skillPanels;
+	Map<String, JRadioButton[]> skillMap;
+	
+	Map<String , Map<String, JRadioButton[]>> skillLevelMap;
+	
 	public GUIPanels(ParagraphGUI mainGUI, Paragraph paragraph) {
 		this.mainGUI = mainGUI;
 		this.paragraph = paragraph;
@@ -99,24 +98,21 @@ public class GUIPanels {
 
 			scanner.close();
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
 
-
 	private void createNewStudentButton() {
 		JPanel buttonPanel = new JPanel();
 		buttonPanel.setLayout(new FlowLayout());
-		
+
 		next = new JButton("Next");
 		previous = new JButton("Previous");
 		newStudent = new JButton("New Student");
-		
+
 		buttonPanel.add(previous);
 		buttonPanel.add(newStudent);
 		buttonPanel.add(next);
-		
 		mainGUI.add(buttonPanel, BorderLayout.SOUTH);
 	}
 
@@ -146,6 +142,7 @@ public class GUIPanels {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				paragraph.setName(name.getText());
+				paragraph.setSkillLevelMap(skillLevelMap);
 				if (female.isSelected())
 					paragraph.setGenderPronouns(female.getLabel());
 				else
@@ -153,23 +150,40 @@ public class GUIPanels {
 				System.out.println(paragraph);
 			}
 		}
-		
+
 		class NextPanelButtonListener implements ActionListener {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				checklistPanel.remove(skillPanels.get(currentSkill % skillPanels.size()));
-				currentSkill++;
-				checklistPanel.add(skillPanels.get(currentSkill % skillPanels.size()),
-						 BorderLayout.WEST);
+				if (currentSkill < skillPanels.size()-1) {
+					checklistPanel.remove(skillPanels.get(currentSkill));
+					currentSkill++;
+					checklistPanel.add(skillPanels.get(currentSkill),
+							BorderLayout.WEST);
 
-				mainGUI.validate();
-				mainGUI.repaint();
-				System.out.println(skillPanels.get(currentSkill % skillPanels.size()).getName());
-			}	
+					mainGUI.validate();
+					mainGUI.repaint();
+				}			}	
 		}
-		
+
+		class PreviousPanelButtonListener implements ActionListener {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (currentSkill > 0) {
+					checklistPanel.remove(skillPanels.get(currentSkill));
+					currentSkill--;
+					checklistPanel.add(skillPanels.get(currentSkill),
+							BorderLayout.WEST);
+
+					mainGUI.validate();
+					mainGUI.repaint();
+				}
+			}
+
+		}
+
 		newStudent.addActionListener(new NewStudentButtonListener());
 		next.addActionListener(new NextPanelButtonListener());
+		previous.addActionListener(new PreviousPanelButtonListener());
 	}
 
 	private void createChecklistPanel() {
@@ -178,35 +192,35 @@ public class GUIPanels {
 
 		mainGUI.add(checklistPanel);
 		createSkillPanels();
-		
-		currentSkill = 1;
-		System.out.println(skillPanels.get(0).isVisible());
+
+		currentSkill = 0;
 		checklistPanel.add(skillPanels.get(currentSkill), BorderLayout.WEST);
-		}
+	}
 
 	private void createSkillPanels() {
 		skillPanels = new ArrayList<JPanel>();
+		skillLevelMap = new LinkedHashMap<String, Map<String,JRadioButton[]>>();
 		for (String skillSet : allSkills.keySet()) {
-			skillMap = new LinkedHashMap<JLabel, JRadioButton[]>();
+			skillMap = new LinkedHashMap<String, JRadioButton[]>();
 			JPanel overallSkillPanel = new JPanel();
 			overallSkillPanel.setLayout(new BorderLayout());
-			
+
 			JPanel skillLevelPanel = new JPanel();
 			JPanel skillLabelPanel = new JPanel();
-			
+
 			skillLevelPanel.setLayout(new GridLayout(allSkills.get(skillSet).size() + 1
 					, 4, 1, 25));
 			skillLabelPanel.setLayout(new GridLayout(allSkills.get(skillSet).size() + 1
 					, 0, 1, 25));
-			
+
 			createButtonGroup(allSkills.get(skillSet), skillMap);
-			
+
 			skillLabelPanel.add(new JLabel(skillSet));
-			
-			for (JLabel label : skillMap.keySet()) {
-				skillLabelPanel.add(label);
+
+			for (String skill : skillMap.keySet()) {
+				skillLabelPanel.add(new JLabel(skill));
 			}
-			
+
 			JLabel masteredLabel = new JLabel("Mastered");
 			JLabel developingLabel = new JLabel("Developing");
 			JLabel notYetAbleLabel = new JLabel("Not Yet Able");
@@ -216,12 +230,17 @@ public class GUIPanels {
 			skillLevelPanel.add(developingLabel);
 			skillLevelPanel.add(notYetAbleLabel);
 			skillLevelPanel.add(notIntroducedLabel);
-			
-			for (JLabel label : skillMap.keySet()) {
-				for (JRadioButton button : skillMap.get(label)) {
+
+			for (String skill : skillMap.keySet()) {
+				for (JRadioButton button : skillMap.get(skill)) {
+					JLabel label = new JLabel(skill);
+					label.setOpaque(true);
+					label.setBackground(Color.LIGHT_GRAY);
 					skillLevelPanel.add(button);
 				}
 			}
+			
+			skillLevelMap.put(skillSet, skillMap);
 			
 			overallSkillPanel.setName(skillSet);
 			overallSkillPanel.add(skillLabelPanel, BorderLayout.WEST);
@@ -230,12 +249,28 @@ public class GUIPanels {
 		}
 	}
 
-	private void createButtonGroup(ArrayList<String> skills, Map<JLabel, JRadioButton[]> map) {
+	private void createButtonGroup(ArrayList<String> skills, Map<String, JRadioButton[]> map) {
 		for (String skill : skills) {
 			JRadioButton masteredButton = new JRadioButton();
 			JRadioButton developingButton = new JRadioButton();
 			JRadioButton notYetAbleButton = new JRadioButton();
 			JRadioButton notIntroducedButton = new JRadioButton();
+
+			masteredButton.setOpaque(true);
+			developingButton.setOpaque(true);
+			notYetAbleButton.setOpaque(true);
+			notIntroducedButton.setOpaque(true);
+			
+			masteredButton.setName("mastered");
+			developingButton.setName("developing");
+			notYetAbleButton.setName("not yet able");
+			notIntroducedButton.setName("not introduced");
+
+			masteredButton.setBackground(Color.LIGHT_GRAY);
+			developingButton.setBackground(Color.LIGHT_GRAY);
+			notYetAbleButton.setBackground(Color.LIGHT_GRAY);
+			notIntroducedButton.setBackground(Color.LIGHT_GRAY);
+
 			abilityLevel = new ButtonGroup();
 			abilityLevel.add(masteredButton);
 			abilityLevel.add(developingButton);
@@ -248,8 +283,8 @@ public class GUIPanels {
 			levelSelect[1] = developingButton;
 			levelSelect[2] = notYetAbleButton;
 			levelSelect[3] = notIntroducedButton;
-			
-			map.put(new JLabel(skill), levelSelect);
+
+			map.put(skill, levelSelect);
 		}
 	}
 
