@@ -218,7 +218,12 @@ public class GUIPanels {
 			skillLabelPanel.add(new JLabel(skillSet));
 
 			for (String skill : skillMap.keySet()) {
-				skillLabelPanel.add(new JLabel(skill));
+				JLabel label = new JLabel(skill);
+				
+				label.setOpaque(true);
+				label.setBackground(Color.LIGHT_GRAY);
+				
+				skillLabelPanel.add(label);
 			}
 
 			JLabel masteredLabel = new JLabel("Mastered");
