@@ -48,6 +48,9 @@ public class GUIPanels {
 	Map<String, ButtonGroup> fineMotorSelection;
 	Map<String, ButtonGroup> communiationLanguageSelection;
 
+	JButton previous;
+	JButton next;
+	
 	ArrayList<JPanel> skillPanels;
 	Map<JLabel, JRadioButton[]> skillMap;
 
@@ -98,8 +101,18 @@ public class GUIPanels {
 
 
 	private void createNewStudentButton() {
+		JPanel buttonPanel = new JPanel();
+		buttonPanel.setLayout(new FlowLayout());
+		
+		next = new JButton("Next");
+		previous = new JButton("Previous");
 		newStudent = new JButton("New Student");
-		mainGUI.add(newStudent, BorderLayout.SOUTH);
+		
+		buttonPanel.add(previous);
+		buttonPanel.add(newStudent);
+		buttonPanel.add(next);
+		
+		mainGUI.add(buttonPanel, BorderLayout.SOUTH);
 	}
 
 	private void createGenderButton() {
@@ -140,8 +153,10 @@ public class GUIPanels {
 	private void createChecklistPanel() {
 		checklistPanel = new JPanel();
 		checklistPanel.setLayout(new BorderLayout());
+
 		mainGUI.add(checklistPanel);
 		createSkillPanels();
+		//checklistPanel.add(next);
 		//setSelfHelpPanel();
 	}
 
