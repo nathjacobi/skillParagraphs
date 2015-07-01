@@ -2,10 +2,7 @@ package skillParagraphs;
 
 import javax.swing.JFrame;
 
-public class ParagraphGUI extends JFrame{
-	private GUIPanels panels;
-	
-	
+public class ParagraphGUI extends JFrame{		
 	/**
 	 * 
 	 */
@@ -15,7 +12,7 @@ public class ParagraphGUI extends JFrame{
 		this.setTitle("Skill Paragraph Generator");
 		this.setSize(1280, 720);
 		this.setLocation(400, 100);
-		panels = new GUIPanels(this);
+		new GUIPanels(this);
 	}
 	
 	public static void main(String[] args) {

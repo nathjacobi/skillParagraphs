@@ -52,8 +52,6 @@ public class Paragraph {
 			String setParagraph = "";
 			setParagraph = setParagraph.concat(set+":\n");
 			
-			ArrayList<ArrayList<String>> paras = new ArrayList<ArrayList<String>>();
-			
 			ArrayList<String> mastered = new ArrayList<String>();
 			ArrayList<String> developing = new ArrayList<String>();
 			ArrayList<String> notYetAble = new ArrayList<String>();

@@ -3,37 +3,22 @@ package skillParagraphs;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.FlowLayout;
-import java.awt.Font;
-import java.awt.FontMetrics;
-import java.awt.Graphics;
 import java.awt.GridLayout;
-import java.awt.Image;
-import java.awt.Label;
-import java.awt.Rectangle;
-import java.awt.Shape;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.image.ImageObserver;
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.lang.reflect.Array;
-import java.text.AttributedCharacterIterator;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Scanner;
 
-import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
-import javax.swing.GroupLayout.Alignment;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
-import javax.swing.SpringLayout;
-import javax.swing.SpringLayout.Constraints;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 
@@ -63,9 +48,12 @@ public class GUIPanels {
 	
 	Map<String , Map<String, JRadioButton[]>> skillLevelMap;
 	
+	Color skillColor;
+	
 	public GUIPanels(ParagraphGUI mainGUI) {
 		this.mainGUI = mainGUI;
 		paragraph = new Paragraph();
+		skillColor = Color.LIGHT_GRAY;
 		createNamePanel();
 		createGenderButton();
 		createNavigateAndCreateButtonPanel();
@@ -210,19 +198,24 @@ public class GUIPanels {
 			JPanel skillLabelPanel = new JPanel();
 
 			skillLevelPanel.setLayout(new GridLayout(allSkills.get(skillSet).size() + 1
-					, 4, 1, 25));
+					, 4, 1, 0));
 			skillLabelPanel.setLayout(new GridLayout(allSkills.get(skillSet).size() + 1
-					, 0, 1, 25));
+					, 0, 1, 0));
 
 			createButtonGroup(allSkills.get(skillSet), skillMap);
 
 			skillLabelPanel.add(new JLabel(skillSet));
-
+			
+			if (skillMap.keySet().size() % 2 == 1) {
+				pickColor();
+			}
+			
 			for (String skill : skillMap.keySet()) {
+				pickColor();
 				JLabel label = new JLabel(skill);
 				
 				label.setOpaque(true);
-				label.setBackground(Color.LIGHT_GRAY);
+				label.setBackground(getSkillColor());
 				
 				skillLabelPanel.add(label);
 			}
@@ -236,12 +229,13 @@ public class GUIPanels {
 			skillLevelPanel.add(developingLabel);
 			skillLevelPanel.add(notYetAbleLabel);
 			skillLevelPanel.add(notIntroducedLabel);
-
+			
 			for (String skill : skillMap.keySet()) {
 				for (JRadioButton button : skillMap.get(skill)) {
+					pickColor();
 					JLabel label = new JLabel(skill);
 					label.setOpaque(true);
-					label.setBackground(Color.LIGHT_GRAY);
+					label.setBackground(getSkillColor());
 					skillLevelPanel.add(button);
 				}
 			}
@@ -249,6 +243,7 @@ public class GUIPanels {
 			skillLevelMap.put(skillSet, skillMap);
 			
 			overallSkillPanel.setName(skillSet);
+			overallSkillPanel.setBorder(new EtchedBorder());
 			overallSkillPanel.add(skillLabelPanel, BorderLayout.WEST);
 			overallSkillPanel.add(skillLevelPanel);
 			skillPanels.add(overallSkillPanel);
@@ -257,6 +252,7 @@ public class GUIPanels {
 
 	private void createButtonGroup(ArrayList<String> skills, Map<String, JRadioButton[]> map) {
 		for (String skill : skills) {
+			pickColor();
 			JRadioButton masteredButton = new JRadioButton();
 			JRadioButton developingButton = new JRadioButton();
 			JRadioButton notYetAbleButton = new JRadioButton();
@@ -272,10 +268,10 @@ public class GUIPanels {
 			notYetAbleButton.setName("not yet able");
 			notIntroducedButton.setName("not introduced");
 
-			masteredButton.setBackground(Color.LIGHT_GRAY);
-			developingButton.setBackground(Color.LIGHT_GRAY);
-			notYetAbleButton.setBackground(Color.LIGHT_GRAY);
-			notIntroducedButton.setBackground(Color.LIGHT_GRAY);
+			masteredButton.setBackground(getSkillColor());
+			developingButton.setBackground(getSkillColor());
+			notYetAbleButton.setBackground(getSkillColor());
+			notIntroducedButton.setBackground(getSkillColor());
 
 			abilityLevel = new ButtonGroup();
 			abilityLevel.add(masteredButton);
@@ -303,5 +299,20 @@ public class GUIPanels {
 		namePanel.add(nameLabel);
 		namePanel.add(name);
 		mainGUI.add(namePanel, BorderLayout.NORTH);
+	}
+	
+	private Color getSkillColor() {
+		return skillColor;
+	}
+	
+	private Color pickColor() {
+		if (skillColor.equals(Color.LIGHT_GRAY)) {
+			skillColor = Color.GRAY;
+			return skillColor;
+		}
+		else {
+			skillColor = Color.LIGHT_GRAY;
+			return skillColor;
+		}
 	}
 }
