@@ -141,8 +141,8 @@ public class GUIPanels {
 		checklistPanel = new JPanel();
 		checklistPanel.setLayout(new BorderLayout());
 		mainGUI.add(checklistPanel);
-
-		setSelfHelpPanel();
+		createSkillPanels();
+		//setSelfHelpPanel();
 	}
 
 	private void setSelfHelpPanel() {
@@ -182,7 +182,6 @@ public class GUIPanels {
 		selfHelpLabelPanel.add(knowsDays);
 		selfHelpLabelPanel.add(knowsMonths);
 		selfHelpLabelPanel.add(takesCare);
-
 
 		setSelfHelpMaps(buttonSnaps);
 		setSelfHelpMaps(tellsName);
@@ -246,7 +245,17 @@ public class GUIPanels {
 			skillPanel.add(developingLabel);
 			skillPanel.add(notYetAbleLabel);
 			skillPanel.add(notIntroducedLabel);
+			
+			for (JLabel label : skillMap.keySet()) {
+				for (JRadioButton button : skillMap.get(label)) {
+					skillPanel.add(button);
+				}
+			}
+			skillPanels.add(skillPanel);
+			checklistPanel.add(skillLabelPanel, BorderLayout.WEST);
+			checklistPanel.add(skillPanel);
 		}
+		
 	}
 
 	private void createButtonGroup(ArrayList<String> skills, Map<JLabel, JRadioButton[]> map) {
