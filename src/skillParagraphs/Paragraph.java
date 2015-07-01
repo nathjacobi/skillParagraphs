@@ -71,16 +71,16 @@ public class Paragraph {
 					finalSkill = skill.replace("their", addressingPronoun);
 				}
 				for (JRadioButton button : skillLevelMap.get(set).get(skill)) {
-					if (button.getName().equals("mastered")) {
+					if (button.getName().equals("mastered") && button.isSelected()) {
 						mastered.add(finalSkill);
 					} 
-					else if (button.getName().equals("developing")) {
+					else if (button.getName().equals("developing") && button.isSelected()) {
 						developing.add(finalSkill);
 					}
-					else if (button.getName().equals("not yet able")) {
+					else if (button.getName().equals("not yet able") && button.isSelected()) {
 						notYetAble.add(finalSkill);
 					}
-					else if (button.getName().equals("not introduced")) {
+					else if (button.getName().equals("not introduced") && button.isSelected()) {
 						notIntroduced.add(finalSkill);
 					}
 				}
@@ -111,20 +111,20 @@ public class Paragraph {
 			}
 			if (!developing.isEmpty()) {
 				if (setParagraph.contains(name)) {
-					setParagraph = setParagraph.concat(referPronoun + " is developing " + 
+					setParagraph = setParagraph.concat(" " + referPronoun + " is developing " + 
 				addressingPronoun + " ability to ");
 				}
 				else {
 					setParagraph = setParagraph.concat(name + " is developing " + addressingPronoun
 						+ " ability to ");
 				}
-				for (int i = 0; i<mastered.size(); i++) {
-					if (i == mastered.size() - 1) {
-						setParagraph = setParagraph.concat("and " + mastered.get(i).toLowerCase() + ".");
+				for (int i = 0; i<developing.size(); i++) {
+					if (i == developing.size() - 1 && i > 0) {
+						setParagraph = setParagraph.concat("and " + developing.get(i).toLowerCase() + ".");
 					}
 					else {
-						setParagraph = setParagraph.concat(mastered.get(i).toLowerCase());
-						if (mastered.get(i).contains(",")){
+						setParagraph = setParagraph.concat(developing.get(i).toLowerCase());
+						if (developing.get(i).contains(",")){
 							setParagraph = setParagraph.concat("; ");
 						}
 						else {
@@ -136,18 +136,18 @@ public class Paragraph {
 			}
 			if (!notYetAble.isEmpty()) {
 				if (setParagraph.contains(name)) {
-					setParagraph = setParagraph.concat(referPronoun + "does not ");
+					setParagraph = setParagraph.concat(" " + referPronoun + " is not yet able to ");
 				}
 				else {
-					setParagraph = setParagraph.concat(name + " does not ");
+					setParagraph = setParagraph.concat(name + " is not yet able to ");
 				}
-				for (int i = 0; i<mastered.size(); i++) {
-					if (i == mastered.size() - 1) {
-						setParagraph = setParagraph.concat("and " + mastered.get(i).toLowerCase() + ".");
+				for (int i = 0; i<notYetAble.size(); i++) {
+					if (i == notYetAble.size() - 1) {
+						setParagraph = setParagraph.concat("and " + notYetAble.get(i).toLowerCase() + ".");
 					}
 					else {
-						setParagraph = setParagraph.concat(mastered.get(i).toLowerCase());
-						if (mastered.get(i).contains(",")){
+						setParagraph = setParagraph.concat(notYetAble.get(i).toLowerCase());
+						if (notYetAble.get(i).contains(",")){
 							setParagraph = setParagraph.concat("; ");
 						}
 						else {
@@ -159,18 +159,18 @@ public class Paragraph {
 			}
 			if (!notIntroduced.isEmpty()) {
 				if (setParagraph.contains(name)) {
-					setParagraph = setParagraph.concat(referPronoun + "has not been" +
+					setParagraph = setParagraph.concat(" " + referPronoun + " has not been" +
 							" introduced to ");
 				}
 				else {
 					setParagraph = setParagraph.concat(name + " has not been introduced to ");
-				}				for (int i = 0; i<mastered.size(); i++) {
-					if (i == mastered.size() - 1) {
-						setParagraph = setParagraph.concat("and " + mastered.get(i).toLowerCase() + ".");
+				}				for (int i = 0; i<notIntroduced.size(); i++) {
+					if (i == notIntroduced.size() - 1) {
+						setParagraph = setParagraph.concat("and " + notIntroduced.get(i).toLowerCase() + ".");
 					}
 					else {
-						setParagraph = setParagraph.concat(mastered.get(i).toLowerCase());
-						if (mastered.get(i).contains(",")){
+						setParagraph = setParagraph.concat(notIntroduced.get(i).toLowerCase());
+						if (notIntroduced.get(i).contains(",")){
 							setParagraph = setParagraph.concat("; ");
 						}
 						else {
