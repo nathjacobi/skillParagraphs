@@ -63,9 +63,9 @@ public class GUIPanels {
 	
 	Map<String , Map<String, JRadioButton[]>> skillLevelMap;
 	
-	public GUIPanels(ParagraphGUI mainGUI, Paragraph paragraph) {
+	public GUIPanels(ParagraphGUI mainGUI) {
 		this.mainGUI = mainGUI;
-		this.paragraph = paragraph;
+		paragraph = new Paragraph();
 		createNamePanel();
 		createGenderButton();
 		createNewStudentButton();
@@ -141,13 +141,14 @@ public class GUIPanels {
 			@SuppressWarnings("deprecation")
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				paragraph.reset();
 				paragraph.setName(name.getText());
 				paragraph.setSkillLevelMap(skillLevelMap);
 				if (female.isSelected())
 					paragraph.setGenderPronouns(female.getLabel());
 				else
 					paragraph.setGenderPronouns(male.getLabel());
-				System.out.println(paragraph);
+				new ParagraphTextBox(paragraph.getParagraphs());
 			}
 		}
 

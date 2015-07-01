@@ -37,18 +37,13 @@ public class Paragraph {
 		makeParagraphs();
 	}
 	
+	public void reset() {
+		paragraphs = new ArrayList<String>();
+		skillLevelMap = new LinkedHashMap<String, Map<String,JRadioButton[]>>();
+	}
+	
 	public void setSkillLevelMap(Map<String, Map<String,JRadioButton[]>> skillLevelMap) {
 		this.skillLevelMap = skillLevelMap;
-//		for (String set : skillLevelMap.keySet()) {
-//			for (String skill : skillLevelMap.get(set).keySet()) {
-//				for (JRadioButton button : skillLevelMap.get(set).get(skill)) {
-//					if (button.isSelected()) {
-//						System.out.println("The " + skill + " skill is at the " + button.getName()
-//								+ " level");
-//					}
-//				}
-//			}
-//		}
 	}
 
 	public void makeParagraphs() {
@@ -97,17 +92,17 @@ public class Paragraph {
 					}
 				}
 			}
-			paras.add(mastered);
-			paras.add(developing);
-			paras.add(notYetAble);
-			paras.add(notIntroduced);
 			
 			if (!mastered.isEmpty()) {
 				setParagraph = setParagraph.concat(name+" has mastered " + addressingPronoun
 						+ " ability to ");
 				for (int i = 0; i<mastered.size(); i++) {
 					if (i == mastered.size() - 1) {
-						setParagraph = setParagraph.concat("and " + mastered.get(i).toLowerCase() + ".");
+						if (i > 0) {
+							setParagraph = setParagraph.concat("and " + mastered.get(i).toLowerCase() + ".");
+						} else {
+							setParagraph = setParagraph.concat(mastered.get(i).toLowerCase() + ".");
+						}
 					}
 					else {
 						setParagraph = setParagraph.concat(mastered.get(i).toLowerCase());
@@ -131,8 +126,12 @@ public class Paragraph {
 						+ " ability to ");
 				}
 				for (int i = 0; i<developing.size(); i++) {
-					if (i == developing.size() - 1 && i > 0) {
-						setParagraph = setParagraph.concat("and " + developing.get(i).toLowerCase() + ".");
+					if (i == developing.size() - 1) {
+						if (i > 0) {
+							setParagraph = setParagraph.concat("and " + developing.get(i).toLowerCase() + ".");
+						} else {
+							setParagraph = setParagraph.concat(developing.get(i).toLowerCase() + ".");
+						}
 					}
 					else {
 						setParagraph = setParagraph.concat(developing.get(i).toLowerCase());
@@ -155,7 +154,11 @@ public class Paragraph {
 				}
 				for (int i = 0; i<notYetAble.size(); i++) {
 					if (i == notYetAble.size() - 1) {
-						setParagraph = setParagraph.concat("and " + notYetAble.get(i).toLowerCase() + ".");
+						if (i > 0) {
+							setParagraph = setParagraph.concat("and " + notYetAble.get(i).toLowerCase() + ".");
+						} else {
+							setParagraph = setParagraph.concat(notYetAble.get(i).toLowerCase() + ".");
+						}
 					}
 					else {
 						setParagraph = setParagraph.concat(notYetAble.get(i).toLowerCase());
@@ -178,7 +181,11 @@ public class Paragraph {
 					setParagraph = setParagraph.concat(name + " has not been introduced to ");
 				}				for (int i = 0; i<notIntroduced.size(); i++) {
 					if (i == notIntroduced.size() - 1) {
-						setParagraph = setParagraph.concat("and " + notIntroduced.get(i).toLowerCase() + ".");
+						if (i > 0) {
+							setParagraph = setParagraph.concat("and " + notIntroduced.get(i).toLowerCase() + ".");
+						} else {
+							setParagraph = setParagraph.concat(notIntroduced.get(i).toLowerCase() + ".");
+						}
 					}
 					else {
 						setParagraph = setParagraph.concat(notIntroduced.get(i).toLowerCase());
@@ -192,9 +199,9 @@ public class Paragraph {
 					
 				}
 			}
+			setParagraph = setParagraph.concat("\n\n");
 			paragraphs.add(setParagraph);
 		}
-		System.out.println(paragraphs.get(0));
 	}
 	
 	public ArrayList<String> getParagraphs() {
