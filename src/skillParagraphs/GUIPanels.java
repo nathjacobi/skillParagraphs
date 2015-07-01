@@ -43,7 +43,7 @@ public class GUIPanels {
 	JTextField name;
 	ParagraphGUI mainGUI;
 	Paragraph paragraph;
-	JButton newStudent;
+	JButton writeParagraph;
 
 	JPanel genderPanel;
 	JRadioButton female;
@@ -68,7 +68,7 @@ public class GUIPanels {
 		paragraph = new Paragraph();
 		createNamePanel();
 		createGenderButton();
-		createNewStudentButton();
+		createNavigateAndCreateButtonPanel();
 		readFile();
 		createChecklistPanel();
 		addListeners();
@@ -102,16 +102,16 @@ public class GUIPanels {
 		}
 	}
 
-	private void createNewStudentButton() {
+	private void createNavigateAndCreateButtonPanel() {
 		JPanel buttonPanel = new JPanel();
 		buttonPanel.setLayout(new FlowLayout());
 
 		next = new JButton("Next");
 		previous = new JButton("Previous");
-		newStudent = new JButton("New Student");
+		writeParagraph = new JButton("Write Paragraph");
 
 		buttonPanel.add(previous);
-		buttonPanel.add(newStudent);
+		buttonPanel.add(writeParagraph);
 		buttonPanel.add(next);
 		mainGUI.add(buttonPanel, BorderLayout.SOUTH);
 	}
@@ -182,7 +182,7 @@ public class GUIPanels {
 
 		}
 
-		newStudent.addActionListener(new NewStudentButtonListener());
+		writeParagraph.addActionListener(new NewStudentButtonListener());
 		next.addActionListener(new NextPanelButtonListener());
 		previous.addActionListener(new PreviousPanelButtonListener());
 	}
