@@ -81,6 +81,18 @@ public class Paragraph {
 						notYetAble.add(finalSkill);
 					}
 					else if (button.getName().equals("not introduced") && button.isSelected()) {
+						String firstWord = finalSkill.substring(0, finalSkill.indexOf(" "));
+						String changedFirstWord = firstWord;
+						if (firstWord.endsWith("e")) {
+							changedFirstWord = changedFirstWord.substring(0, changedFirstWord.length()-1);
+						}
+						else if (firstWord.endsWith("ie")) {
+							changedFirstWord = changedFirstWord.substring(0, changedFirstWord.length()-2);
+							changedFirstWord = changedFirstWord.concat("y");
+						}
+						changedFirstWord = changedFirstWord.concat("ing");
+						finalSkill = changedFirstWord.concat(
+								finalSkill.substring(firstWord.length(), finalSkill.length()));
 						notIntroduced.add(finalSkill);
 					}
 				}
@@ -183,6 +195,10 @@ public class Paragraph {
 			paragraphs.add(setParagraph);
 		}
 		System.out.println(paragraphs.get(0));
+	}
+	
+	public ArrayList<String> getParagraphs() {
+		return paragraphs;
 	}
 	
 	@Override
