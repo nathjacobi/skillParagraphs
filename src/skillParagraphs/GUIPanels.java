@@ -6,8 +6,7 @@ import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -63,31 +62,25 @@ public class GUIPanels {
 	}
 
 	private void readFile() {
-		FileReader reader;
 		allSkills = new LinkedHashMap<String, ArrayList<String>>();
-		try {
-			reader = new FileReader("skills.txt");
-			Scanner scanner = new Scanner(reader);
-			String category = new String();
-			ArrayList<String> skillsIn = new ArrayList<String>();
-			category = scanner.nextLine();
-			while (scanner.hasNextLine()) {
-				String line = scanner.nextLine();
-				if (line.isEmpty()) {
-					allSkills.put(category, skillsIn);
-					category = scanner.nextLine();
-					skillsIn = new ArrayList<String>();
-				}
-				else {
-					skillsIn.add(line);
-				}
+		InputStream stream = getClass().getResourceAsStream("skills.txt");
+		Scanner scanner = new Scanner(stream);
+		String category = new String();
+		ArrayList<String> skillsIn = new ArrayList<String>();
+		category = scanner.nextLine();
+		while (scanner.hasNextLine()) {
+			String line = scanner.nextLine();
+			if (line.isEmpty()) {
+				allSkills.put(category, skillsIn);
+				category = scanner.nextLine();
+				skillsIn = new ArrayList<String>();
 			}
-			allSkills.put(category, skillsIn);
-
-			scanner.close();
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
+			else {
+				skillsIn.add(line);
+			}
 		}
+		allSkills.put(category, skillsIn);
+		scanner.close();
 	}
 
 	private void createNavigateAndCreateButtonPanel() {
@@ -181,8 +174,8 @@ public class GUIPanels {
 
 		mainGUI.add(checklistPanel);
 		createSkillPanels();
-
-		currentSkill = 0;
+		
+		currentSkill = 0;		
 		checklistPanel.add(skillPanels.get(currentSkill), BorderLayout.WEST);
 	}
 
